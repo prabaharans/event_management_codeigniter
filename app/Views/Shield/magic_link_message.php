@@ -5,9 +5,12 @@
 <?= $this->section('main') ?>
 
 <div class="container d-flex justify-content-center p-5">
-    <div class="card col-12 col-md-5 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title mb-5"><?= lang('Auth.useMagicLink') ?></h5>
+    <div class="login-card">
+        <div class="login-logo">
+            <a href="#">Online Event Management</a>
+        </div><!-- /.login-logo -->
+        <div class="login-card-body">
+            <h5 class="login-card-msg"><?= lang('Auth.useMagicLink') ?></h5>
 
             <p><b><?= lang('Auth.checkYourEmail') ?></b></p>
 

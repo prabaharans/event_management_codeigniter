@@ -57,6 +57,14 @@ class Auth extends ShieldAuth
         'magic-link-login'            => '\App\Views\Shield\magic_link_form',
         'magic-link-message'          => '\App\Views\Shield\magic_link_message',
         'magic-link-email'            => '\App\Views\Shield\Email\magic_link_email',
+        'header'                      => '\App\Views\layouts\header',
+        'footer'                      => '\App\Views\layouts\footer',
+        'nav'                         => '\App\Views\layouts\nav',
+        'sidebar'                     => '\App\Views\layouts\sidebar',
+        'messages'                    => '\App\Views\layouts\messages',
+        'logged_layout'               => '\App\Views\layouts\layout',
+        'calendar'                    => '\App\Views\includes\calendar',
+        'event_form'                  => '\App\Views\includes\event_form',
     ];
 
     /**
@@ -437,8 +445,11 @@ class Auth extends ShieldAuth
     public function loginRedirect(): string
     {
         $session = session();
-        $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
-
+        if(!auth()->id()) {
+            $url     = $session->getTempdata('beforeLoginUrl') ?? setting('Auth.redirects')['login'];
+        } else {
+            $url     = '/dashboard';
+        }
         return $this->getUrl($url);
     }
 

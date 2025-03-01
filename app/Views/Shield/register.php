@@ -32,25 +32,25 @@
 
                     <!-- Email -->
                     <div class="form-group mb-2">
-                        <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
+                        <label for="floatingEmailInput" class="text-small"><?= lang('Auth.email') ?></label>
                         <input type="email" class="form-control form-control-sm" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
                     </div>
 
                     <!-- Username -->
                     <div class="form-group mb-4">
-                        <label for="floatingUsernameInput"><?= lang('Auth.username') ?></label>
+                        <label for="floatingUsernameInput" class="text-small"><?= lang('Auth.username') ?></label>
                         <input type="text" class="form-control form-control-sm" id="floatingUsernameInput" name="username" inputmode="text" autocomplete="username" placeholder="<?= lang('Auth.username') ?>" value="<?= old('username') ?>" required>
                     </div>
 
                     <!-- Password -->
                     <div class="form-group mb-2">
-                        <label for="floatingPasswordInput"><?= lang('Auth.password') ?></label>
+                        <label for="floatingPasswordInput" class="text-small"><?= lang('Auth.password') ?></label>
                         <input type="password" class="form-control form-control-sm" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.password') ?>" required>
                     </div>
 
                     <!-- Password (Again) -->
                     <div class="form-group mb-5">
-                        <label for="floatingPasswordConfirmInput"><?= lang('Auth.passwordConfirm') ?></label>
+                        <label for="floatingPasswordConfirmInput" class="text-small"><?= lang('Auth.passwordConfirm') ?></label>
                         <input type="password" class="form-control form-control-sm" id="floatingPasswordConfirmInput" name="password_confirm" inputmode="text" autocomplete="new-password" placeholder="<?= lang('Auth.passwordConfirm') ?>" required>
                     </div>
 

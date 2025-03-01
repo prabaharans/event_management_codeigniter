@@ -5,9 +5,12 @@
 <?= $this->section('main') ?>
 
 <div class="container d-flex justify-content-center p-5">
-    <div class="card col-12 col-md-5 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title mb-5"><?= lang('Auth.useMagicLink') ?></h5>
+    <div class="login-card">
+        <div class="login-logo">
+            <a href="#">Online Event Management</a>
+        </div><!-- /.login-logo -->
+        <div class="login-card-body">
+            <h5 class="login-card-msg"><?= lang('Auth.useMagicLink') ?></h5>
 
                 <?php if (session('error') !== null) : ?>
                     <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
@@ -28,14 +31,14 @@
                 <?= csrf_field() ?>
 
                 <!-- Email -->
-                <div class="form-floating mb-2">
-                    <input type="email" class="form-control" id="floatingEmailInput" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
-                           value="<?= old('email', auth()->user()->email ?? null) ?>" required>
-                    <label for="floatingEmailInput"><?= lang('Auth.email') ?></label>
+                <div class="form-group mb-2">
+                    <label for="floatingEmailInput" class="text-small"><?= lang('Auth.email') ?></label>
+                    <input type="email" class="form-control form-control-sm" id="floatingEmailInput" name="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>"
+                           value="<?= old('email', auth()->user()->email ?? null) ?>" required>s
                 </div>
 
                 <div class="d-grid col-12 col-md-8 mx-auto m-3">
-                    <button type="submit" class="btn btn-primary btn-block"><?= lang('Auth.send') ?></button>
+                    <button type="submit" class="btn bg-gradient-info btn-block"><?= lang('Auth.send') ?></button>
                 </div>
 
             </form>

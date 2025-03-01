@@ -36,13 +36,13 @@
 
                     <!-- Email -->
                     <div class="form-group mb-3">
-                        <label for="floatingEmailInput text-small"><?= lang('Auth.email') ?></label>
+                        <label for="floatingEmailInput" class="text-small"><?= lang('Auth.email') ?></label>
                         <input type="email" class="form-control form-control-sm" id="floatingEmailInput" name="email" inputmode="email" autocomplete="email" placeholder="<?= lang('Auth.email') ?>" value="<?= old('email') ?>" required>
                     </div>
 
                     <!-- Password -->
                     <div class="form-group mb-3">
-                        <label for="floatingPasswordInput text-small"><?= lang('Auth.password') ?></label>
+                        <label for="floatingPasswordInput" class="text-small"><?= lang('Auth.password') ?></label>
                         <input type="password" class="form-control form-control-sm" id="floatingPasswordInput" name="password" inputmode="text" autocomplete="current-password" placeholder="<?= lang('Auth.password') ?>" required>
                     </div>
 
