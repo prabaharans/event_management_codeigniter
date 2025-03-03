@@ -4,7 +4,7 @@ use App\Models\UserDetailsModel;
 function getCurrentUserDetails(){
     $userDetailModel = new UserDetailsModel();
     $user                   = auth()->user();
-    $identity               = auth()->user()->getEmailIdentity();
+    // $identity               = auth()->user()->getEmailIdentity();
 
     $data = [
         'title'             => 'View Users',
@@ -12,7 +12,9 @@ function getCurrentUserDetails(){
         'details'           => $userDetailModel->where('user_id', user_id())->first(),
         'group'             => auth()->user()->getGroups(),
         'permissions'       => auth()->user()->getPermissions(),
-        'identity'          => $identity->secret
+        'email'             => auth()->user()->getEmail(),
+        'previousLogin'     => auth()->user()->previousLogin(),
+        'lastLogin'         => auth()->user()->lastLogin()
     ];
     return $data;
 }

@@ -9,7 +9,7 @@
 					<a href="<?= base_url('booking') ?>" class="nav-link"><i class="nav-icon fas fa-calendar-days"></i><p>Event Booking</p></a>
 				</li>
 				<li class="nav-item">
-					<a href="<?= base_url('users') ?>" class="nav-link"><i class="nav-icon fas fa-users"></i><p>User Details</p></a>
+					<a href="<?= base_url('user-info') ?>" class="nav-link"><i class="nav-icon fas fa-users"></i><p>User Details</p></a>
 				</li>
 				<?php
 				if(auth()->user()->inGroup('admin')) {

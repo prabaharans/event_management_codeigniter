@@ -1,3 +1,8 @@
+<?php
+$currentUserDetails = getCurrentUserDetails();
+$details = $currentUserDetails['details'];
+$name = $details['firstname'].' '.$details['middlename'].' '.$details['lastname'];
+?>
 <!-- Navbar -->
   	<!-- Left navbar links -->
   	<ul class="navbar-nav">
@@ -9,7 +14,7 @@
 
 		<li class="nav-item d-none d-sm-inline-block">
 			<a class="nav-link">
-			<span class="hidden-xs"></i>Welcome, <?php //echo strtoupper($_SESSION['calendar_fd_user']['name']); ?></span>
+			<span class="hidden-xs"></i>Welcome, <?php echo strtoupper($name); ?></span>
 			</a>
 		</li>
 		<li class="nav-item d-none d-sm-inline-block">

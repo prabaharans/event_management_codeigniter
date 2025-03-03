@@ -27,4 +27,14 @@ class Home extends BaseController
     {
         echo 'student dashboard';
     }
+
+    public function userInfo()
+    {
+        $currentUserDetails = getCurrentUserDetails();
+        // echo '<pre>';
+        // print_r($currentUserDetails);
+        // echo '</pre>';
+        // die;
+        return view('user_info', $currentUserDetails);
+    }
 }

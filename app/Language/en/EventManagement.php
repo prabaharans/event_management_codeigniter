@@ -2,6 +2,7 @@
 
 return [
     'dashboard' => 'Dashboard',
+    'userInfo' => 'User Information',
     'validation' => [
         'messages' => [
             'eventForm' => [
