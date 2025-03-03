@@ -10,13 +10,11 @@
 <!-- /.col -->
 <div class="col-md-4">
 <?php
-// $type = $_SESSION['calendar_fd_user']['type'];
-// if($type == 'admin' || $type == 'teacher') {
-    echo $this->include(config('Auth')->views['event_form']);
-// }
-// else {
-// 	echo "&nbsp;";
-// }
+if(auth()->user()->inGroup('admin') ||  auth()->user()->inGroup('teacher')) {
+    echo $this->include(config('Auth')->views['event_form'], $users);
+} else {
+	echo "&nbsp;";
+}
 ?>
 </div>
 <!-- /.col -->

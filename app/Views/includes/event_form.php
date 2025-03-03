@@ -19,45 +19,33 @@
         <label for="exampleInputEmail1" class="text-small">Name</label>
 		<input type="hidden" name="userId" value=""  id="userId"/>
         <span id="tf_name">
-		<select name="name" id="name" class="form-control form-control-sm input-sm">
-			<option>--select user--</option>
-			<?php
-			// $sql = "SELECT id, name FROM tbl_users";
-			// $result = dbQuery($dbConn, $sql);
-			// while($row = dbFetchAssoc($result)) {
-			// 	extract($row);
-			 ?>
-			<option value="<?php //echo $id; ?>"><?php //echo $name; ?></option>
-			<?php
-			// }
-			?>
-		</select>
-		<span class="selectRequiredMsg text-small">Name is required.</span>
+			<select name="name" id="name" class="form-control form-control-sm input-sm">
+				<option value="">--select user--</option>
+				<?php foreach ($users as $user) : ?>
 
+					<option value="<?= $user->id; ?>"><?= $user->username; ?></option>
+
+				<?php endforeach; ?>
+			</select>
 		</span>
       </div>
 
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Address</label>
 		<span id="tf_address">
-        <textarea name="address" class="form-control form-control-sm input-sm" placeholder="Address" id="address"></textarea>
-		<span class="textareaRequiredMsg text-small">Address is required.</span>
-		<span class="textareaMinCharsMsg text-small">Address must specify at least 10 characters.</span>
+        	<textarea name="address" class="form-control form-control-sm input-sm" placeholder="Address" id="address"></textarea>
 		</span>
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Mobile</label>
 		<span id="tf_mobile">
-        <input type="mobile" name="mobile" class="form-control form-control-sm input-sm"  placeholder="Mobile number" id="mobile">
-		<span class="textfieldRequiredMsg text-small">Mobile number is required.</span>
+        	<input type="mobile" name="mobile" class="form-control form-control-sm input-sm"  placeholder="Mobile number" id="mobile">
 		</span>
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Email address</label>
 		<span id="tf_email">
-        <input type="email" name="email" class="form-control form-control-sm input-sm" placeholder="Enter email" id="email" data-inputmask-alias="email">
-		<span class="textfieldRequiredMsg text-small">Email ID is required.</span>
-		<span class="textfieldInvalidFormatMsg text-small">Please enter a valid email (user@domain.com).</span>
+			<input type="email" name="email" class="form-control form-control-sm input-sm" placeholder="Enter email" id="email" data-inputmask-alias="email">
 		</span>
       </div>
 
@@ -66,17 +54,13 @@
       	<div class="col-6">
 			<label class="text-small">Reservation Date</label>
 			<span id="tf_rdate">
-        	<input type="date" name="rdate" class="form-control form-control-sm" placeholder="YYYY-mm-dd">
-			<span class="textfieldRequiredMsg text-small">Date is required.</span>
-			<span class="textfieldInvalidFormatMsg text-small">Invalid date Format.</span>
+				<input type="date" name="rdate" class="form-control form-control-sm" placeholder="YYYY-mm-dd">
 			</span>
         </div>
         <div class="col-6">
 			<label class="text-small">Reservation Time</label>
 			<span id="tf_rtime">
-            <input type="time" name="rtime" class="form-control form-control-sm" placeholder="HH:mm">
-			<span class="textfieldRequiredMsg text-small">Time is required.</span>
-			<span class="textfieldInvalidFormatMsg text-small">Invalid time Format.</span>
+				<input type="time" name="rtime" class="form-control form-control-sm" placeholder="HH:mm">
 			</span>
        </div>
       </div>
@@ -85,9 +69,8 @@
 	  <div class="form-group">
         <label for="exampleInputPassword1" class="text-small">No of Peoples</label>
 		<span id="tf_ucount">
-        <input type="number" name="ucount" min="1" max="100" class="form-control form-control-sm input-sm" placeholder="No of peoples" >
-		<span class="textfieldRequiredMsg text-small">No of peoples is required.</span>
-		<span class="textfieldInvalidFormatMsg text-small">Invalid Format.</span>
+			<input type="number" name="ucount" min="1" max="100" class="form-control form-control-sm input-sm" placeholder="No of peoples">
+		</span>
       </div>
     <!-- /.box-body -->
     <div class="box-footer">
@@ -102,27 +85,9 @@
 	<script src="<?= base_url('jquery.validate/additional-methods.min.js') ?>" type="text/javascript"></script>
 	<script src="<?= base_url('jquery.inputmask/jquery.inputmask.min.js') ?>" type="text/javascript"></script>
 	<!-- <script src="<?= base_url('jquery.mask/jquery.mask.min.js') ?>" type="text/javascript"></script> -->
-	<!-- <script src="<?= base_url('spry/textfieldvalidation/SpryValidationTextField.js') ?>" type="text/javascript"></script>
-	<script src="<?= base_url('spry/textareavalidation/SpryValidationTextarea.js') ?>" type="text/javascript"></script>
-	<script src="<?= base_url('spry/selectvalidation/SpryValidationSelect.js') ?>" type="text/javascript"></script> -->
-
 	<script type="text/javascript">
 		var langEventFormJSON = <?php echo $line = json_encode(lang('EventManagement.validation.messages.eventForm', [], 'english'));
 ; ?>;
-		if(langEventFormJSON != '') {
-			// var langEventFormArr = JSON.parse(langEventFormJSON);
-			// console.log('langEventFormJSON');
-			// console.log(langEventFormJSON);
-			// console.log(langEventFormJSON.eventName.required);
-		}
-	// var sprytf_name 	= new Spry.Widget.ValidationSelect("sprytf_name");
-	// var sprytf_address 	= new Spry.Widget.ValidationTextarea("sprytf_address", {minChars:6, isRequired:true, validateOn:["blur", "change"]});
-	// var sprytf_phone 	= new Spry.Widget.ValidationTextField("sprytf_phone", 'none', {validateOn:["blur", "change"]});
-	// var sprytf_mail 	= new Spry.Widget.ValidationTextField("sprytf_email", 'email', {validateOn:["blur", "change"]});
-	// var sprytf_rdate 	= new Spry.Widget.ValidationTextField("sprytf_rdate", "date", {format:"yyyy-mm-dd", useCharacterMasking: true, validateOn:["blur", "change"]});
-	// var sprytf_rtime 	= new Spry.Widget.ValidationTextField("sprytf_rtime", "time", {hint:"i.e 20:10", useCharacterMasking: true, validateOn:["blur", "change"]});
-	// var sprytf_ucount 	= new Spry.Widget.ValidationTextField("sprytf_ucount", "integer", {validateOn:["blur", "change"]});
-
 	// $('select').on('change', function() {
 	// 	//alert( this.value );
 	// 	var id = this.value;
@@ -142,34 +107,8 @@
 
 
    if ($("#frmBookEvent").length > 0) {
-		// $("#mobile").inputmask("(99)-9999-9999");
-		// $("#mobile").inputmask("+99-9999999999");
-		// $("#mobile").inputmask("(999)-999-9999");
-		// $("#mobile").inputmask("+999-99-99-999999");
-		// $("#mobile").inputmask("09999999999");
-		// $("#mobile").inputmask("9999999999");
-
-		// $("#mobile").mask("+99-9999999999", {placeholder:"+__-________"});
 		$("#mobile").inputmask("+99-9999999999");
-		// $("#email").mask("abc@def.ghi", {placeholder:"___@____.___"});
-		// $("#email").inputmask({ alias: "email"});
-		// $("#email").inputmask("abc@def.ghi");
-		// Inputmask( "/[a-zA-Z0-9_]/@/[a-zA-Z0-9]/./[a-zA-Z]{2,4}/").mask("#email");
-
-		// $('#email').mask('', {
-		// 	// translation: {
-		// 	// 	'A': { pattern: /[a-zA-Z0-9_]/ },
-		// 	// 	'B': { pattern: /[a-zA-Z0-9]/ },
-		// 	// 	'C': { pattern: /[a-zA-Z]{2,4}/ }
-		// 	// },
-		// 	clearIfNotMatch: true, // Clear the input if it doesn't match the pattern
-		// 	placeholder:"___@____.___"
-		// });
-		// $('#rdate').mask('1111-11-11');
-		// $('#rdate').inputmask('YYYY-MM-DD');
-		// $('#rtime').mask('00:00:00');
       	$("#frmBookEvent").validate({
-			// focusCleanup: true,
 			errorClass: "invalid-feedback",
 			errorElement: "span",
 			rules: {
@@ -188,7 +127,7 @@
 				email: {
 					required: true,
 					maxlength: 50,
-					email: true,
+					// email: true,
 					regxEmail: true
 				},
 				rdate: {
@@ -199,6 +138,7 @@
 				},
 				ucount: {
 					required: true,
+					maxlength: 3,
 				},
 			},
 			messages: {
@@ -210,8 +150,8 @@
 				},
 				email: {
 					required: langEventFormJSON.eventEmail.required,
-					email: langEventFormJSON.eventEmail.isValid,
-					maxlength: langEventFormJSON.eventEmail.maxlength,
+					// email: langEventFormJSON.eventEmail.isValid,
+					maxlength: langEventFormJSON.eventEmail.maxlength.replace('##REQUIREREPLACE##',50),
 					regxEmail: langEventFormJSON.eventEmail.regxEmail,
 				},
 				mobile: {
@@ -229,21 +169,19 @@
 
 				ucount: {
 					required: langEventFormJSON.eventNoOfPeople.required,
+					maxlength: langEventFormJSON.eventNoOfPeople.maxlength.replace('##REQUIREREPLACE##',50),
 				},
 			},
 			highlight: function (element) {
 				$(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid');
-				// $(element).closest('label').removeClass('invalid-feedback').addClass('valid-feedback');
 				$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
 			},
 			unhighlight: function ( element, errorClass, validClass ) {
 				$( element ).closest('.form-control').removeClass('is-invalid').addClass('is-valid');
-				// $(element).closest('label').removeClass('invalid-feedback').addClass('valid-feedback');
 				$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
 			},
 			success: function (element) {
 				$( element ).closest('.form-control').removeClass('is-invalid').addClass('is-valid');
-				// $(element).closest('label').removeClass('invalid-feedback').addClass('valid-feedback');
 				$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
 			}
 			// submitHandler: function(form) {

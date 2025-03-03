@@ -12,14 +12,13 @@
 					<a href="<?= base_url('users') ?>" class="nav-link"><i class="nav-icon fas fa-users"></i><p>User Details</p></a>
 				</li>
 				<?php
-				// $type = $_SESSION['calendar_fd_user']['type'];
-				// if($type == 'admin') {
-				?>
-				<li class="nav-item">
-					<a href="<?= base_url('holidays') ?>" class="nav-link"><i class="nav-icon fas fa-plane"></i><p>Holidays</p></a>
-				</li>
+				if(auth()->user()->inGroup('admin')) {
+					?>
+					<li class="nav-item">
+						<a href="<?= base_url('holidays') ?>" class="nav-link"><i class="nav-icon fas fa-plane"></i><p>Holidays</p></a>
+					</li>
 				<?php
-				// }
+				}
 				?>
 			</ul>
 		</nav>
