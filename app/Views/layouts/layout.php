@@ -2,6 +2,7 @@
 <html>
 <head>
 <?= $this->include(config('Auth')->views['header']) ?>
+<?= $this->renderSection('pageStyles') ?>
 </head>
 <body class="sidebar-mini layout-boxed">
 <div class="wrapper">
@@ -60,5 +61,6 @@
 	</footer>
 </div>
 <!-- ./wrapper -->
+<?= $this->renderSection('pageScripts') ?>
 </body>
 </html>
