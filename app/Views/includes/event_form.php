@@ -88,18 +88,48 @@
 	<script type="text/javascript">
 		var langEventFormJSON = <?php echo $line = json_encode(lang('EventManagement.validation.messages.eventForm', [], 'english'));
 ; ?>;
-	// $('select').on('change', function() {
-	// 	//alert( this.value );
-	// 	var id = this.value;
-	// 	$.get('<?= base_url('api/process.php?cmd=user&userId=') ?>'+id, function(data, status){
-	// 		var obj = $.parseJSON(data);
-	// 		$('#userId').val(obj.user_id);
-	// 		$('#email').val(obj.email);
-	// 		$('#address').val(obj.address);
-	// 		$('#phone').val(obj.phone_no);
-	// 	});
+	$('select').on('change', function() {
+	 	//alert( this.value );
+	 	var id = this.value;
+	 	// $.get('<?= base_url('api/user-info/') ?>'+id, function(data, status){
+	 	// 	var obj = $.parseJSON(data);
+	 	// 	$('#userId').val(obj.user_id);
+	 	// 	$('#email').val(obj.email);
+	 	// 	$('#address').val(obj.address);
+	 	// 	$('#phone').val(obj.phone_no);
+		// });
 
-	// })
+		$.ajax({
+			url: "<?= base_url('api/user-info/') ?>"+id,
+			type: "GET",
+			headers: { Authorization: 'Bearer <?= $token ?>' },
+			error: function(err) {
+				switch (err.status) {
+				case "400":
+					// bad request
+					break;
+				case "401":
+					// unauthorized
+					break;
+				case "403":
+					// forbidden
+					break;
+				default:
+					//Something bad happened
+					break;
+				}
+			},
+			success: function(obj) {
+				console.log("Success!");
+				// var obj = $.parseJSON(data);
+				$('#userId').val(obj.user_id);
+				$('#email').val(obj.email);
+				$('#address').val(obj.details.address1+' '+obj.details.address2);
+				$('#mobile').val(obj.mobile);
+			}
+			});
+
+	})
 
 	$.validator.addMethod("regxEmail", function(value, element) {
 		return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);

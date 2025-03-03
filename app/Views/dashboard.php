@@ -11,7 +11,7 @@
 <div class="col-md-4">
 <?php
 if(auth()->user()->inGroup('admin') ||  auth()->user()->inGroup('teacher')) {
-    echo $this->include(config('Auth')->views['event_form'], $users);
+    echo $this->include(config('Auth')->views['event_form'], [$users, $token]);
 } else {
 	echo "&nbsp;";
 }

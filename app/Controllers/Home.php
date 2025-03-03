@@ -9,11 +9,16 @@ class Home extends BaseController
     public function index(): string
     {
         $currentUserDetails = getCurrentUserDetails();
+        // echo '<pre>';
+        // print_r($currentUserDetails->email);
+        // echo '</pre>';
+        // die;
         $usersModel = new UsersModel();
         $users = $usersModel->findAll();
         $data = [
             'users' => $users,
-            'currentUserDetails' => $currentUserDetails
+            'currentUserDetails' => $currentUserDetails,
+            'token' => getUerJWTToken($currentUserDetails['email'])
         ];
         return view('dashboard', $data);
     }

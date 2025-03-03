@@ -40,6 +40,8 @@ class Filters extends BaseFilters
         'auth-rates'  => \CodeIgniter\Shield\Filters\AuthRates::class,
         'group'       => \CodeIgniter\Shield\Filters\GroupFilter::class,
         'permission'  => \CodeIgniter\Shield\Filters\PermissionFilter::class,
+
+        'authFilter' => \App\Filters\AuthFilter::class,
     ];
 
     /**
