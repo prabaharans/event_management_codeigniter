@@ -125,3 +125,5 @@ nb-configuration.xml
 /results/
 /phpunit*.xml
 composer.lock
+composer.lock
+app/Controllers/CountryImageController.php
