@@ -6,7 +6,7 @@ use CodeIgniter\Entity\Entity;
 
 use CodeIgniter\Shield\Entities\User as ShieldUserEntity;
 
-class UsersEntity extends ShieldUserEntity
+class User extends ShieldUserEntity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at', 'deleted_at'];

@@ -7,14 +7,14 @@ use CodeIgniter\Model;
 use CodeIgniter\Database\Exceptions\DataException;
 use CodeIgniter\Entity\Cast\ObjectCast;
 use CodeIgniter\Shield\Entities\User as EntitiesUser;
-use App\Entities\UserEntity as User;
+use App\Entities\User as User;
 use CodeIgniter\Shield\Models\DatabaseException;
 use CodeIgniter\Shield\Models\UserModel as ShieldUserModel;
 use Exception;
 
 final class UsersModel extends ShieldUserModel
 {
-    // protected $returnType = User::class;
+    protected $returnType = User::class;
 
     protected $table            = 'users';
     protected $primaryKey       = 'id';
@@ -69,6 +69,5 @@ final class UsersModel extends ShieldUserModel
             ...$this->allowedFields,
             'display_name'
         ];
-        $this->returnType = User::class;
     }
 }
