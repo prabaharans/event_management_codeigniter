@@ -21,8 +21,8 @@ return [
                 'eventMobile' => [
                     'required' => 'Please enter the mobile number',
                     'number' => 'Please enter numbers Only',
-                    'minlength' => 'The mobile number should greater than 10 characters',
-                    'maxlength' => 'The mobile number should less than or equal to 17 characters',
+                    'minlength' => 'The mobile number should greater than ##REQUIREREPLACE## characters',
+                    'maxlength' => 'The mobile number should less than or equal to ##REQUIREREPLACE## characters',
                 ],
                 'eventReservationDate' => [
                     'required' => 'Please enter the reservation date',
