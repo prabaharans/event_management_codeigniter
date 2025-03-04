@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsersModel;
+use App\Models\CountriesModel;
 
 class Home extends BaseController
 {
@@ -13,10 +14,13 @@ class Home extends BaseController
         // print_r($currentUserDetails->email);
         // echo '</pre>';
         // die;
+        $countriesModel = new CountriesModel();
+        $countries = $countriesModel->findAll();
         $usersModel = new UsersModel();
         $users = $usersModel->findAll();
         $data = [
             'users' => $users,
+            'countries' => $countries,
             'currentUserDetails' => $currentUserDetails,
             'token' => getUerJWTToken($currentUserDetails['email'])
         ];

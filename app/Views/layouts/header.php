@@ -12,6 +12,9 @@
 <!-- Ionicons -->
 <link rel="stylesheet" href="<?= base_url('ionicons/css/icon.min.css') ?>">
 
+<link rel="stylesheet" href="<?= base_url('select2/select2.min.css') ?>">
+<link rel="stylesheet" href="<?= base_url('select2/select2-bootstrap4.min.css') ?>">
+
 <!-- Theme style -->
 <link rel="stylesheet" href="<?= base_url('css/adminlte.min.css') ?>">
 <link rel="stylesheet" href="<?= base_url('css/custom.css') ?>">

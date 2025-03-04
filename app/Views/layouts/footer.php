@@ -21,6 +21,7 @@ Project by: <b>Prabaharan Solairaj&nbsp;</b></a>
 <!-- fullCalendar 6.1.15 -->
 <script src="<?= base_url('moment/moment.min.js') ?>"></script>
 <script src="<?= base_url('fullcalendar/fullcalendar.min.js') ?>"></script>
+<script src="<?= base_url('select2/select2.full.min.js') ?>"></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>

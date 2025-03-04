@@ -38,6 +38,14 @@
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Mobile</label>
+		<span id="tf_phone_code">
+			<select name="phone_code" id="phone_code" class="form-control form-control-sm input-sm">
+				<option value="">--select phone code--</option>
+				<?php foreach ($countries as $country) : ?>
+					<option class="option-image" value="<?= $country['id']; ?>" data-image="<?= base_url('img-country-flag/'.$country['iso2'].'.png') ?>">+<?= $country['phonecode']; ?> (<?= $country['name']; ?>)</option>
+				<?php endforeach; ?>
+			</select>
+		</span>
 		<span id="tf_mobile">
         	<input type="mobile" name="mobile" class="form-control form-control-sm input-sm"  placeholder="Mobile number" id="mobile">
 		</span>
@@ -88,16 +96,88 @@
 	<script type="text/javascript">
 		var langEventFormJSON = <?php echo $line = json_encode(lang('EventManagement.validation.messages.eventForm', [], 'english'));
 ; ?>;
+
+	// $('.option-image').each(function() {
+	// 	var dataImage = $(this).attr('data-image');
+	// 	$(this).css({'background-image':'url("'+dataImage+'")'});
+	// });
+
+	function formatOption(option) {
+        if (!option.id) {
+            return option.text;
+        }
+		// console.log('option.data_text');
+		// console.log(option);
+
+
+		// if(typeof option.data_text !== 'undefined') {
+		// 	$(option).attr('data-iso2',option.data_text);
+		// 	console.log('option.data_text1');
+		// 	console.log(option.data_text);
+		// 	console.log($(option).attr('data-iso2'));
+		// } else {
+		// 	option.data_text = $(option).attr('data-iso2');
+		// 	console.log('option.data_text2');
+		// 	console.log(option.data_text);
+		// 	console.log($(option).attr('data-iso2'));
+		// }
+        // // var imageUrl = 'path/' + option.data_text + '.png';
+		// var imageUrl = '<?= base_url('img-country-flag/') ?>'+option.data_text+'.png';
+        // var optionWithImage = $(
+        //     '<span><img src="' + imageUrl + '" class="img-flag" /> ' + option.text + '</span>'
+        // );
+        // return optionWithImage;
+
+		var baseUrl = "<?= base_url('img-country-flag/') ?>";
+		var $state = $(
+			'<span><img class="img-flag" /> <span></span></span>'
+		);
+
+		// Use .text() instead of HTML string concatenation to avoid script injection issues
+		$state.find("span").text(option.text);
+		$state.find("img").attr("src", baseUrl + option.id + ".png");
+
+		return $state;
+    }
+	$("#phone_code").select2({
+		theme: "bootstrap4 ",
+		templateResult: formatOption,
+        templateSelection: formatOption,
+        // minimumResultsForSearch: Infinity,
+		ajax: {
+			url: "<?=site_url('countries/getPhoneCodes')?>",
+			type: "post",
+			dataType: 'json',
+			delay: 250,
+			data: function (params) {
+				// CSRF Hash
+				var csrfName = $('.txt_csrfname').attr('name'); // CSRF Token name
+				var csrfHash = $('.txt_csrfname').val(); // CSRF hash
+
+				return {
+				searchTerm: params.term, // search term
+				page: params.page || 1,
+				[csrfName]: csrfHash // CSRF Token
+				};
+			},
+			processResults: function (response, params) {
+				params.page = params.page || 1;
+
+				// Update CSRF Token
+				$('.txt_csrfname').val(response.token);
+
+				return {
+					results: response.data,
+					pagination: {
+						more: response.pagination.more
+					}
+				};
+			},
+			cache: true
+		}
+	});
 	$('select').on('change', function() {
-	 	//alert( this.value );
 	 	var id = this.value;
-	 	// $.get('<?= base_url('api/user-info/') ?>'+id, function(data, status){
-	 	// 	var obj = $.parseJSON(data);
-	 	// 	$('#userId').val(obj.user_id);
-	 	// 	$('#email').val(obj.email);
-	 	// 	$('#address').val(obj.address);
-	 	// 	$('#phone').val(obj.phone_no);
-		// });
 
 		$.ajax({
 			url: "<?= base_url('api/user-info/') ?>"+id,
@@ -121,7 +201,6 @@
 			},
 			success: function(obj) {
 				console.log("Success!");
-				// var obj = $.parseJSON(data);
 				$('#userId').val(obj.user_id);
 				$('#email').val(obj.email);
 				$('#address').val(obj.details.address1+' '+obj.details.address2);
@@ -137,7 +216,8 @@
 
 
    if ($("#frmBookEvent").length > 0) {
-		$("#mobile").inputmask("+99-9999999999");
+		// $("#mobile").inputmask("+99-9999999999");
+		$("#mobile").inputmask("9999999999");
       	$("#frmBookEvent").validate({
 			errorClass: "invalid-feedback",
 			errorElement: "span",
@@ -151,8 +231,8 @@
 				},
 				mobile: {
 					required: true,
-					minlength:10,
-					maxlength:17,
+					maxlength:10,
+					// maxlength:17,
 				},
 				email: {
 					required: true,
@@ -187,8 +267,8 @@
 				mobile: {
 					required: langEventFormJSON.eventMobile.required,
 					number: langEventFormJSON.eventMobile.number,
-					minlength: langEventFormJSON.eventMobile.minlength,
-					maxlength: langEventFormJSON.eventMobile.maxlength,
+					maxlength: langEventFormJSON.eventMobile.maxlength.replace('##REQUIREREPLACE##',10),
+					// maxlength: langEventFormJSON.eventMobile.maxlength,
 				},
 				rdate: {
 					required: langEventFormJSON.eventReservationDate.required,

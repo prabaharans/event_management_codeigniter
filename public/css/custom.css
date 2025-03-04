@@ -5,3 +5,15 @@
 svg.svg-inline--fa.fa-check.col-1.icon {
     width: 1%;
 }
+
+.option-image {
+
+    background-size: contain;
+
+    background-repeat: no-repeat;
+
+    background-position: left center;
+
+    padding-left: 30px; /* Adjust for image width */
+
+}

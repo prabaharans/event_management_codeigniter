@@ -11,6 +11,9 @@ $routes->get('/', 'LoginController::loginView');
 $routes->get('student', 'Home::studentDashboard');
 $routes->get('admin', 'Home::adminDashboard', ['filter' => 'group:admin']);
 
+// $routes->get('img-country-flag/(:any)', 'CountryImageController::show/$1');
+$routes->post('/countries/getPhoneCodes', 'CountriesController::getPhoneCodes');
+
 
 $routes->group("api", function ($routes) {
     $routes->post("register", "Register::index");
