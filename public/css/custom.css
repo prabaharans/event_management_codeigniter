@@ -17,3 +17,44 @@ svg.svg-inline--fa.fa-check.col-1.icon {
     padding-left: 30px; /* Adjust for image width */
 
 }
+
+.input-group.select2-inline .select2-container {
+    flex-grow: 0;
+}
+.input-group > .select2-container {
+    flex-basis: min-content;
+    z-index: 3;
+}
+.input-group .select2-container .select2-selection--single {
+    background-position: right 0.3rem center;
+    padding: 0.5rem 0.55rem 0.5rem 0.55rem;
+}
+.select2-container--bootstrap4 .select2-selection--single {
+    height: calc(1.80rem + 2px);
+    /* width: 6.2rem; */
+    width: auto;
+    background: transparent;
+}
+.select2-dropdown {
+    width: 19rem !important;
+}
+
+span#phone_code-error {
+    float: left;
+}
+
+span.select2.select2-container.select2-container--bootstrap4.glyphicon-remove.form-control.is-invalid {
+    height: auto;
+    padding: 0 !important;
+    margin: 0;
+}
+
+span.select2.select2-container.select2-container--bootstrap4.glyphicon-remove.form-control.form-control.is-invalid {
+    background-position: right calc(.375em + 1.1875rem) center;
+}
+
+
+.phone_code_pre {
+    margin: 0;
+    padding: 0;
+}

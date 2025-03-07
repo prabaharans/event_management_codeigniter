@@ -38,17 +38,21 @@
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Mobile</label>
-		<span id="tf_phone_code">
-			<select name="phone_code" id="phone_code" class="form-control form-control-sm input-sm">
-				<option value="">--select phone code--</option>
-				<?php foreach ($countries as $country) : ?>
-					<option class="option-image" value="<?= $country['id']; ?>" data-image="<?= base_url('img-country-flag/'.$country['iso2'].'.png') ?>">+<?= $country['phonecode']; ?> (<?= $country['name']; ?>)</option>
-				<?php endforeach; ?>
-			</select>
-		</span>
-		<span id="tf_mobile">
-        	<input type="mobile" name="mobile" class="form-control form-control-sm input-sm"  placeholder="Mobile number" id="mobile">
-		</span>
+		<div class="input-group mb-3">
+			<!-- <span id="tf_phone_code"> -->
+			<div class="input-group-prepend col-4 phone_code_pre">
+				<select name="phone_code" id="phone_code" class="form-control form-control-sm input-sm select2 custom-select">
+					<option value=""></option>
+					<?php /*foreach ($countries as $country) : ?>
+						<option class="option-image" value="<?= $country['id']; ?>" data-image="<?= base_url('img-country-flag/'.$country['iso2'].'.png') ?>">+<?= $country['phonecode']; ?> (<?= $country['name']; ?>)</option>
+					<?php endforeach;*/ ?>
+				</select>
+			</div>
+			<!-- </span>
+			<span id="tf_mobile"> -->
+				<input type="mobile" name="mobile" class="form-control form-control-sm input-sm col-8"  placeholder="Mobile number" id="mobile">
+			<!-- </span> -->
+		</div>
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1" class="text-small">Email address</label>
@@ -130,7 +134,7 @@
 
 		var baseUrl = "<?= base_url('img-country-flag/') ?>";
 		var $state = $(
-			'<span><img class="img-flag" /> <span></span></span>'
+			'<span><img class="img-flag" />&nbsp;<span></span></span>'
 		);
 
 		// Use .text() instead of HTML string concatenation to avoid script injection issues
@@ -140,9 +144,13 @@
 		return $state;
     }
 	$("#phone_code").select2({
+		// allowClear: true,
+		// tags: true,
+		// multiple: false,
 		theme: "bootstrap4 ",
 		templateResult: formatOption,
         templateSelection: formatOption,
+		// containerCssClass: 'form-control form-control-sm',
         // minimumResultsForSearch: Infinity,
 		ajax: {
 			url: "<?=site_url('countries/getPhoneCodes')?>",
@@ -175,10 +183,33 @@
 			},
 			cache: true
 		}
-	});
-	$('select').on('change', function() {
-	 	var id = this.value;
+	}).on("change", function (e) {
+		$(this).valid(); //jquery validation script validate on change
+	}).on("select2:open", function() { //correct validation classes (has=*)
+		if ($(this).parents("[class*='has-']").length) { //copies the classes
+			var classNames = $(this).parents("[class*='has-']")[0].className.split(/\s+/);
 
+			for (var i = 0; i < classNames.length; ++i) {
+				if (classNames[i].match("has-")) {
+					$("body > .select2-container").addClass(classNames[i]);
+				}
+			}
+		} else { //removes any existing classes
+			$("body > .select2-container").removeClass (function (index, css) {
+				return (css.match (/(^|\s)has-\S+/g) || []).join(' ');
+			});
+		}
+	});
+	$('#name').on('change', function() {
+	 	var id = this.value;
+		if(!id) {
+			$('#userId').val('');
+			$('#email').val('');
+			$('#address').val('');
+			$('#mobile').val('');
+			$('#phone_code').val('');
+			return false;
+		}
 		$.ajax({
 			url: "<?= base_url('api/user-info/') ?>"+id,
 			type: "GET",
@@ -205,6 +236,9 @@
 				$('#email').val(obj.email);
 				$('#address').val(obj.details.address1+' '+obj.details.address2);
 				$('#mobile').val(obj.mobile);
+				$('#phone_code').val(obj.country_id);
+				$('#phone_code').trigger('change');
+				// $('#phone_code').val(obj.phone_code);
 			}
 			});
 
@@ -214,6 +248,14 @@
 		return this.optional(element) || /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/i.test(value);
 	}, langEventFormJSON.eventEmail.regxEmail);
 
+	function isVisible(id) {
+		var element = $('#' + id);
+		if (element.length > 0 && element.css('visibility') !== 'hidden' && element.css('display') !== 'none') {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
    if ($("#frmBookEvent").length > 0) {
 		// $("#mobile").inputmask("+99-9999999999");
@@ -221,6 +263,22 @@
       	$("#frmBookEvent").validate({
 			errorClass: "invalid-feedback",
 			errorElement: "span",
+			errorPlacement: function (error, element) {
+				if(element.attr('id') == 'phone_code') {
+					error.insertAfter(element.parent().parent('.input-group'));
+				} else if(element.parent('.input-group').length) {
+					// console.log(element.parent('.input-group').siblings().has('.invalid-feedback'));
+					// console.log(element.parent('.input-group').siblings('.invalid-feedback'));
+					// console.log(element.attr('id'));
+					if(element.parent('.input-group').siblings('.invalid-feedback') && element.attr('id') == 'mobile') {
+						error.insertAfter($('#'+element.parent('.input-group').siblings('.invalid-feedback').attr('id')));
+					} else {
+						error.insertAfter(element.parent());
+					}
+				} else {
+					error.insertAfter(element);
+				}
+			},
 			rules: {
 				name: {
 					required: true,
@@ -228,6 +286,9 @@
 				address: {
 					required: true,
 					minlength:10,
+				},
+				phone_code: {
+					required: true,
 				},
 				mobile: {
 					required: true,
@@ -264,6 +325,9 @@
 					maxlength: langEventFormJSON.eventEmail.maxlength.replace('##REQUIREREPLACE##',50),
 					regxEmail: langEventFormJSON.eventEmail.regxEmail,
 				},
+				phone_code: {
+					required: langEventFormJSON.eventPhoneCode.required,
+				},
 				mobile: {
 					required: langEventFormJSON.eventMobile.required,
 					number: langEventFormJSON.eventMobile.number,
@@ -285,14 +349,37 @@
 			highlight: function (element) {
 				$(element).closest('.form-control').removeClass('is-valid').addClass('is-invalid');
 				$( element ).next( "span" ).addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+				// console.log('$( element ).has( ".select2" )');
+				// console.log($( element ).closest( ".select2" ));
+				if($(element).siblings('.select2-container')) {
+					console.log($(element).siblings('.select2-container'));
+					$(element).siblings('.select2-container').removeClass('form-control').addClass('form-control');
+					$(element).siblings('.select2-container').removeClass('form-control-sm').addClass('form-control-sm');
+					$(element).siblings('.select2-container').removeClass('is-valid').addClass('is-invalid');
+					$(element).siblings('.select2-container').addClass( "glyphicon-remove" ).removeClass( "glyphicon-ok" );
+				}
 			},
 			unhighlight: function ( element, errorClass, validClass ) {
 				$( element ).closest('.form-control').removeClass('is-invalid').addClass('is-valid');
 				$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+				if($(element).siblings('.select2-container')) {
+					console.log($(element).siblings('.select2-container'));
+					$(element).siblings('.select2-container').removeClass('form-control');
+					$(element).siblings('.select2-container').removeClass('form-control-sm');
+					$(element).siblings('.select2-container').removeClass('is-invalid').addClass('is-valid');
+					$(element).siblings('.select2-container').addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+				}
 			},
 			success: function (element) {
 				$( element ).closest('.form-control').removeClass('is-invalid').addClass('is-valid');
 				$( element ).next( "span" ).addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+				if($(element).siblings('.select2-container')) {
+					console.log($(element).siblings('.select2-container'));
+					$(element).siblings('.select2-container').removeClass('form-control');
+					$(element).siblings('.select2-container').removeClass('form-control-sm');
+					$(element).siblings('.select2-container').removeClass('is-invalid').addClass('is-valid');
+					$(element).siblings('.select2-container').addClass( "glyphicon-ok" ).removeClass( "glyphicon-remove" );
+				}
 			}
 			// submitHandler: function(form) {
 			// 	$('#btnadd').val('Sending..');
