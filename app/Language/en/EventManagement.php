@@ -19,7 +19,7 @@ return [
                     'regxEmail' => "Email Address is invalid: Please enter a valid email address. (user@domain.com)",
                 ],
                 'eventPhoneCode' => [
-                    'required' => 'Please enter the phone code',
+                    'required' => 'Please select the phone code',
                 ],
                 'eventMobile' => [
                     'required' => 'Please enter the mobile number',
