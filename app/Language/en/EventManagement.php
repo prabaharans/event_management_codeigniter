@@ -18,6 +18,9 @@ return [
                     'maxlength' => "The email should less than or equal to ##REQUIREREPLACE## characters",
                     'regxEmail' => "Email Address is invalid: Please enter a valid email address. (user@domain.com)",
                 ],
+                'eventPhoneCode' => [
+                    'required' => 'Please enter the phone code',
+                ],
                 'eventMobile' => [
                     'required' => 'Please enter the mobile number',
                     'number' => 'Please enter numbers Only',
