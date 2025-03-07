@@ -42,7 +42,7 @@
 			<!-- <span id="tf_phone_code"> -->
 			<div class="input-group-prepend col-4 phone_code_pre">
 				<select name="phone_code" id="phone_code" class="form-control form-control-sm input-sm select2 custom-select">
-					<option value=""></option>
+					<option value="">Phone Codes</option>
 					<?php /*foreach ($countries as $country) : ?>
 						<option class="option-image" value="<?= $country['id']; ?>" data-image="<?= base_url('img-country-flag/'.$country['iso2'].'.png') ?>">+<?= $country['phonecode']; ?> (<?= $country['name']; ?>)</option>
 					<?php endforeach;*/ ?>
@@ -200,17 +200,23 @@
 			});
 		}
 	});
+
+	function clearValues() {
+		$('#userId').val('');
+		$('#email').val('');
+		$('#address').val('');
+		$('#mobile').val('');
+		$('#phone_code').val('');
+		$('#phone_code').trigger('change');
+	}
 	$('#name').on('change', function() {
 	 	var id = this.value;
 		if(!id) {
-			$('#userId').val('');
-			$('#email').val('');
-			$('#address').val('');
-			$('#mobile').val('');
-			$('#phone_code').val('');
+			clearValues();
 			return false;
 		}
 		$.ajax({
+			cache:false,
 			url: "<?= base_url('api/user-info/') ?>"+id,
 			type: "GET",
 			headers: { Authorization: 'Bearer <?= $token ?>' },
@@ -230,15 +236,25 @@
 					break;
 				}
 			},
+			before: function(obj) {
+				clearValues();
+			},
 			success: function(obj) {
 				console.log("Success!");
-				$('#userId').val(obj.user_id);
+				console.log(obj);
+				$('#userId').val(obj.details.user_id);
 				$('#email').val(obj.email);
 				$('#address').val(obj.details.address1+' '+obj.details.address2);
-				$('#mobile').val(obj.mobile);
-				$('#phone_code').val(obj.country_id);
-				$('#phone_code').trigger('change');
+				$('#mobile').val(obj.details.mobile);
+				// $('#phone_code').val(obj.countries.iso2);
+				// $('#phone_code').trigger('change');
 				// $('#phone_code').val(obj.phone_code);
+
+				// Fetch the preselected item, and add to the control
+				var phoneCodeSelect = $('#phone_code');
+				// create the option and append to Select2
+				var option = new Option('+'+obj.countries.phonecode+' ('+obj.countries.name+')', obj.countries.iso2, true, true);
+				phoneCodeSelect.append(option).trigger('change');
 			}
 			});
 
