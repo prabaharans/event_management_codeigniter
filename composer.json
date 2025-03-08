@@ -11,10 +11,11 @@
     },
     "require": {
         "php": "^8.1",
-        "codeigniter4/codeigniter4": "dev-develop",
+        "codeigniter4/codeigniter4": "^4.6.0",
         "codeigniter4/settings": "^2.2",
         "codeigniter4/shield": "^1.1",
-        "firebase/php-jwt": "^6.11"
+        "firebase/php-jwt": "^6.11",
+        "hermawan/codeigniter4-datatables": "dev-master"
     },
     "require-dev": {
         "codeigniter/coding-standard": "^1.8",
@@ -44,7 +45,7 @@
     "scripts": {
         "test": "phpunit"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "repositories": [
         {

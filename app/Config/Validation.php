@@ -41,4 +41,14 @@ class Validation extends BaseConfig
     // --------------------------------------------------------------------
     // Rules
     // --------------------------------------------------------------------
+
+    public $holidayCreate = [];
+    public $holidayUpdate = [];
+
+    public function __construct()
+    {
+        $this->holidayCreate = ($holidayRules = new \App\Validation\HolidayRules())->create();
+        $this->holidayUpdate = $holidayRules->update();
+
+    }
 }

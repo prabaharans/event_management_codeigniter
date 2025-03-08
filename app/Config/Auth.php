@@ -65,6 +65,8 @@ class Auth extends ShieldAuth
         'logged_layout'               => '\App\Views\layouts\layout',
         'calendar'                    => '\App\Views\includes\calendar',
         'event_form'                  => '\App\Views\includes\event_form',
+        'holidays'                    => '\App\Views\includes\holidays',
+        'holiday_form'                => '\App\Views\includes\holiday_form',
     ];
 
     /**

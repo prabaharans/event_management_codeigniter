@@ -4,6 +4,8 @@ namespace App\Controllers;
 
 use App\Models\UsersModel;
 use App\Models\CountriesModel;
+use App\Models\HolidaysModel;
+use \Hermawan\DataTables\DataTable;
 
 class Home extends BaseController
 {
@@ -45,5 +47,30 @@ class Home extends BaseController
         // echo '</pre>';
         // die;
         return view('user_info', $currentUserDetails);
+    }
+
+    public function holidays()
+    {
+        $currentUserDetails = getCurrentUserDetails();
+        $usersModel = new UsersModel();
+        $users = $usersModel->findAll();
+        $data = [
+            'users' => $users,
+            'currentUserDetails' => $currentUserDetails,
+            'token' => getUerJWTToken($currentUserDetails['email'])
+        ];
+        return view('holidays', $data);
+    }
+
+    public function ajaxHolidaysDataTables()
+    {
+        $holidays = new HolidaysModel();
+        $holidays->select('id, hdate, reason');
+
+        return DataTable::of($holidays)
+        ->add('action', function($row){
+            return '<button type="button" class="btn btn-primary btn-sm" onclick="alert(\'edit holiday: '.$row->reason.'\')" ><i class="fas fa-edit"></i> Edit</button>';
+        }, 'last')
+        ->toJson();
     }
 }
