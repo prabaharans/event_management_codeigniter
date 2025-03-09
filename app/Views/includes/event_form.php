@@ -1,26 +1,19 @@
 
 
-<?= $this->section('pageStyles') ?>
-	<link href="<?= base_url('spry/textfieldvalidation/SpryValidationTextField.css') ?>" rel="stylesheet" type="text/css" />
-	<link href="<?= base_url('spry/textareavalidation/SpryValidationTextarea.css') ?>" rel="stylesheet" type="text/css" />
-	<link href="<?= base_url('spry/selectvalidation/SpryValidationSelect.css') ?>" rel="stylesheet" type="text/css" />
-<?= $this->endSection() ?>
-
-
 <div class="card card-info">
   <div class="card-header">
-    <h3 class="card-title"><b>Book Event</b></h3>
+    <h3 class="card-title"><b><?= lang('EventManagement.book_event') ?></b></h3>
   </div>
   <!-- /.box-header -->
   <!-- form start -->
-  <form role="form" action="<?= base_url('api/process.php?cmd=book') ?>" name="frmBookEvent" id="frmBookEvent" method="post">
+  <form role="form" action="<?= base_url('api/event-booking') ?>" name="frmBookEvent" id="frmBookEvent" method="post">
     <div class="card-body p-2">
       <div class="form-group">
-        <label for="exampleInputEmail1" class="text-small">Name</label>
+        <label for="exampleInputEmail1" class="text-small"><?= lang('EventManagement.name') ?></label>
 		<input type="hidden" name="userId" value=""  id="userId"/>
         <span id="tf_name">
 			<select name="name" id="name" class="form-control form-control-sm input-sm">
-				<option value="">--select user--</option>
+				<option value=""><?= lang('EventManagement.select_user') ?></option>
 				<?php foreach ($users as $user) : ?>
 
 					<option value="<?= $user->id; ?>"><?= $user->username; ?></option>
@@ -31,18 +24,18 @@
       </div>
 
 	  <div class="form-group">
-        <label for="exampleInputEmail1" class="text-small">Address</label>
+        <label for="exampleInputEmail1" class="text-small"><?= lang('EventManagement.address') ?></label>
 		<span id="tf_address">
-        	<textarea name="address" class="form-control form-control-sm input-sm" placeholder="Address" id="address"></textarea>
+        	<textarea name="address" class="form-control form-control-sm input-sm" placeholder="<?= lang('EventManagement.address') ?>" id="address"></textarea>
 		</span>
       </div>
 	  <div class="form-group">
-        <label for="exampleInputEmail1" class="text-small">Mobile</label>
+        <label for="exampleInputEmail1" class="text-small"><?= lang('EventManagement.mobile') ?></label>
 		<div class="input-group mb-3">
 			<!-- <span id="tf_phone_code"> -->
 			<div class="input-group-prepend col-4 phone_code_pre">
 				<select name="phone_code" id="phone_code" class="form-control form-control-sm input-sm select2 custom-select">
-					<option value="">Phone Codes</option>
+					<option value=""><?= lang('EventManagement.phone_codes') ?></option>
 					<?php /*foreach ($countries as $country) : ?>
 						<option class="option-image" value="<?= $country['id']; ?>" data-image="<?= base_url('img-country-flag/'.$country['iso2'].'.png') ?>">+<?= $country['phonecode']; ?> (<?= $country['name']; ?>)</option>
 					<?php endforeach;*/ ?>
@@ -50,43 +43,43 @@
 			</div>
 			<!-- </span>
 			<span id="tf_mobile"> -->
-				<input type="mobile" name="mobile" class="form-control form-control-sm input-sm col-8"  placeholder="Mobile number" id="mobile">
+				<input type="mobile" name="mobile" class="form-control form-control-sm input-sm col-8"  placeholder="<?= lang('EventManagement.mobile_number') ?>" id="mobile">
 			<!-- </span> -->
 		</div>
       </div>
 	  <div class="form-group">
-        <label for="exampleInputEmail1" class="text-small">Email address</label>
+        <label for="exampleInputEmail1" class="text-small"><?= lang('EventManagement.email_address') ?></label>
 		<span id="tf_email">
-			<input type="email" name="email" class="form-control form-control-sm input-sm" placeholder="Enter email" id="email" data-inputmask-alias="email">
+			<input type="email" name="email" class="form-control form-control-sm input-sm" placeholder="<?= lang('EventManagement.email_address') ?>" id="email" data-inputmask-alias="email">
 		</span>
       </div>
 
       <div class="form-group">
       <div class="row">
       	<div class="col-6">
-			<label class="text-small">Reservation Date</label>
+			<label class="text-small"><?= lang('EventManagement.reservation_date') ?></label>
 			<span id="tf_rdate">
-				<input type="date" name="rdate" class="form-control form-control-sm" placeholder="YYYY-mm-dd">
+				<input type="date" name="rdate" class="form-control form-control-sm" placeholder="<?= lang('EventManagement.reservation_date_placeholder') ?>">
 			</span>
         </div>
         <div class="col-6">
-			<label class="text-small">Reservation Time</label>
+			<label class="text-small"><?= lang('EventManagement.reservation_time') ?></label>
 			<span id="tf_rtime">
-				<input type="time" name="rtime" class="form-control form-control-sm" placeholder="HH:mm">
+				<input type="time" name="rtime" class="form-control form-control-sm" placeholder="<?= lang('EventManagement.reservation_time_placeholder') ?>">
 			</span>
        </div>
       </div>
 	  </div>
 
 	  <div class="form-group">
-        <label for="exampleInputPassword1" class="text-small">No of Peoples</label>
+        <label for="exampleInputPassword1" class="text-small"><?= lang('EventManagement.no_of_peoples') ?></label>
 		<span id="tf_ucount">
-			<input type="number" name="ucount" min="1" max="100" class="form-control form-control-sm input-sm" placeholder="No of peoples">
+			<input type="number" name="ucount" min="1" max="100" class="form-control form-control-sm input-sm" placeholder="<?= lang('EventManagement.no_of_peoples') ?>">
 		</span>
       </div>
     <!-- /.box-body -->
     <div class="box-footer">
-      <button type="submit" class="btn bg-gradient-info">Submit</button>
+      <button type="submit" class="btn bg-gradient-info"><?= lang('EventManagement.submit') ?></button>
     </div>
   </form>
 </div>
@@ -134,7 +127,7 @@
 
 		var baseUrl = "<?= base_url('img-country-flag/') ?>";
 		var $state = $(
-			'<span><img class="img-flag" />&nbsp;<span></span></span>'
+			'<span><img class="img-flag" align="absmiddle" />&nbsp;<span></span></span>'
 		);
 
 		// Use .text() instead of HTML string concatenation to avoid script injection issues
@@ -203,9 +196,13 @@
 
 	function clearValues() {
 		$('#userId').val('');
+		$('#email').attr('disabled', false);
 		$('#email').val('');
+		$('#address').attr('disabled', false);
 		$('#address').val('');
+		$('#mobile').attr('disabled', false);
 		$('#mobile').val('');
+		$('#phone_code').attr('disabled', false);
 		$('#phone_code').val('');
 		$('#phone_code').trigger('change');
 	}
@@ -244,17 +241,22 @@
 				console.log(obj);
 				$('#userId').val(obj.details.user_id);
 				$('#email').val(obj.email);
+				$('#email').attr('disabled', true);
 				$('#address').val(obj.details.address1+' '+obj.details.address2);
+				$('#address').attr('disabled', true);
 				$('#mobile').val(obj.details.mobile);
+				$('#mobile').attr('disabled', true);
 				// $('#phone_code').val(obj.countries.iso2);
 				// $('#phone_code').trigger('change');
 				// $('#phone_code').val(obj.phone_code);
 
 				// Fetch the preselected item, and add to the control
 				var phoneCodeSelect = $('#phone_code');
+				phoneCodeSelect.attr('disabled', true);
 				// create the option and append to Select2
 				var option = new Option('+'+obj.countries.phonecode+' ('+obj.countries.name+')', obj.countries.iso2, true, true);
 				phoneCodeSelect.append(option).trigger('change');
+
 			}
 			});
 
