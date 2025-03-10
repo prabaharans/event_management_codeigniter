@@ -33,6 +33,25 @@ function deleteHoliday(hid) {
 	}
 }
 
+function holidayEdit(id) {
+  $.ajax({
+    url: '<?= base_url('holiday/ajaxGet/'); ?>'+id,
+    type: 'GET',
+    dataType:"json",
+    beforeSend:function(){
+        $('#addHoliday').text('<?= lang('EventManagement.update_holiday') ?>');
+        $('#addHoliday').attr('disabled', true);
+    },
+    success: function(response){
+        console.log(response);
+        $('#addHoliday').attr('disabled', false);
+        $('#hdate').focus();
+        $('#hdate').val(moment(response.hdate).format('YYYY-MM-DD'));
+        $('#reason').val(response.reason);
+        $('#id').val(response.id);
+    }
+  });
+}
 document.addEventListener("DOMContentLoaded", (event) => {
 
     $(document).ready(function() {
@@ -68,9 +87,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
                 // success: function(data) {
 
                 // }
-            }
+            },
+            order: [],
+            columns: [
+                {data: 'no', orderable: false},
+                {data: 'hdate'},
+                {data: 'reason'},
+                {data: 'action', orderable: false},
+            ]
         });
     });
+
+
 });
 
 </script>

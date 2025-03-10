@@ -6,6 +6,7 @@ use App\Models\UsersModel;
 use App\Models\CountriesModel;
 use App\Models\HolidaysModel;
 use \Hermawan\DataTables\DataTable;
+use CodeIgniter\I18n\Time;
 
 class Home extends BaseController
 {
@@ -66,11 +67,28 @@ class Home extends BaseController
     {
         $holidays = new HolidaysModel();
         $holidays->select('id, hdate, reason');
+        $holidays->orderBY('updated_at', 'Desc');
+        $holidays->orderBY('id', 'Desc');
 
-        return DataTable::of($holidays)
+        return DataTable::of($holidays)->addNumbering('no')
         ->add('action', function($row){
-            return '<button type="button" class="btn btn-primary btn-sm" onclick="alert(\'edit holiday: '.$row->reason.'\')" ><i class="fas fa-edit"></i> Edit</button>';
+            return '<button type="button" class="btn btn-primary btn-sm" onclick="holidayEdit('.$row->id.')" ><i class="fas fa-edit"></i> Edit</button>';
         }, 'last')
-        ->toJson();
+        ->format('hdate', function($value, $meta){
+            $hDate = Time::parse($value); // Parse a date
+
+            return $hDate->toLocalizedString('MMM d, yyyy hh:mm:ss a');
+            // return $hDate->humanize(); // Outputs something like "1 month ago"
+        })
+        ->hide('id')
+        ->toJson(true);
+    }
+
+    public function ajaxGet($id)
+    {
+        $holidays = new HolidaysModel();
+        $holidays->select('id, hdate, reason');
+        $resData = $holidays->find($id);
+        return $this->response->setJSON($resData);
     }
 }

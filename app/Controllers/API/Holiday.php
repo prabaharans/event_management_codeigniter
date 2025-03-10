@@ -14,16 +14,26 @@ class Holiday extends BaseController
 
     public function update()
     {
-
         $data = [
             'hdate' => $this->request->getPost('hdate'),
             'reason' => $this->request->getPost('reason'),
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
         ];
 
-        $validation = \Config\Services::validation();
-        // if ($this->request->getPost()) {     // still TBD: any different to using $this->request->getGetPost() ?
-        $validationResult = $this->validate('holidayCreate');
+        if($this->request->getPost('id')) {
+            $id = $this->request->getPost('id');
+            $data['id'] = $id;
+            $data['updated_at'] = date('Y-m-d H:i:s');
+            $validation = \Config\Services::validation();
+            $validationResult = $this->validate('holidayUpdate');
+            $message = lang('EventManagement.validation.messages.holidayForm.UpdateSuccess');
+        } else {
+            $validation = \Config\Services::validation();
+            $validationResult = $this->validate('holidayCreate');
+            $message = lang('EventManagement.validation.messages.holidayForm.addSuccess');
+        }
+
         if (!$validationResult) {
 
             $validationErrors = $validation->getErrors();
@@ -37,7 +47,7 @@ class Holiday extends BaseController
         $holidaysModel->save($data);
         return $this->response->setJSON([
             'error' => false,
-            'message' => 'Successfully added new holiday!'
+            'message' => $message
         ]);
     }
 }

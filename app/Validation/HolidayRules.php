@@ -22,6 +22,10 @@ class HolidayRules
     public function update(): mixed
     {
         return [
+            'id' => [
+                'label' => 'Id',
+                'rules' => 'required'
+            ],
             'hdate' => [
                 'label' => 'Date',
                 'rules' => 'required'

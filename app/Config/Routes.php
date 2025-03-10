@@ -15,6 +15,7 @@ $routes->get('admin', 'Home::adminDashboard', ['filter' => 'group:admin']);
 // $routes->get('img-country-flag/(:any)', 'CountryImageController::show/$1');
 $routes->post('/countries/getPhoneCodes', 'CountriesController::getPhoneCodes');
 $routes->post('/holidays/ajaxHolidaysDataTables', 'Home::ajaxHolidaysDataTables');
+$routes->get("holiday/ajaxGet/(:num)", "Home::ajaxGet/$1");
 
 
 $routes->group("api", function ($routes) {

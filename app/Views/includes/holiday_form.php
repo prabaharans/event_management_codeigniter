@@ -5,26 +5,27 @@
   </div>
   <!-- /.card-header -->
 
-  <?php if (session('error') !== null) : ?>
-                    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
-                <?php elseif (session('errors') !== null) : ?>
-                    <div class="alert alert-danger" role="alert">
-                        <?php if (is_array(session('errors'))) : ?>
-                            <?php foreach (session('errors') as $error) : ?>
-                                <?= $error ?>
-                                <br>
-                            <?php endforeach ?>
-                        <?php else : ?>
-                            <?= session('errors') ?>
-                        <?php endif ?>
-                    </div>
-                <?php endif ?>
+<?php if (session('error') !== null) : ?>
+    <div class="alert alert-danger" role="alert"><?= session('error') ?></div>
+<?php elseif (session('errors') !== null) : ?>
+    <div class="alert alert-danger" role="alert">
+        <?php if (is_array(session('errors'))) : ?>
+            <?php foreach (session('errors') as $error) : ?>
+                <?= $error ?>
+                <br>
+            <?php endforeach ?>
+        <?php else : ?>
+            <?= session('errors') ?>
+        <?php endif ?>
+    </div>
+<?php endif ?>
 
-                <?php if (session('message') !== null) : ?>
-                <div class="alert alert-success" role="alert"><?= session('message') ?></div>
-                <?php endif ?>
+<?php if (session('message') !== null) : ?>
+    <div class="alert alert-success" role="alert"><?= session('message') ?></div>
+<?php endif ?>
 
-                <div id="res_message" class="alert alert-success" role="alert"></div>
+    <div id="res_message" class="alert alert-success" style="display:none" role="alert"></div>
+
   <!-- form start -->
   <form class="form-horizontal" action="<?php echo base_url(); ?>api/holiday/update" name="frmHoliday" id="frmHoliday" method="post">
     <div class="card-body">
@@ -33,7 +34,7 @@
                 <div class="input-group-prepend col-3">
                     <label for="inputEmail3" class="control-label text-small"><?= lang('EventManagement.holiday_date') ?></label>
                 </div>
-                <input type="date" class="form-control form-control-sm input-sm" name="hdate" placeholder="<?= lang('EventManagement.holiday_date_placeholder') ?>">
+                <input type="date" class="form-control form-control-sm input-sm" name="hdate" id="hdate" placeholder="<?= lang('EventManagement.holiday_date_placeholder') ?>">
             </div>
         </div>
         <div class="form-group">
@@ -41,7 +42,8 @@
                 <div class="input-group-prepend col-3">
                     <label for="inputPassword3" class="control-label text-small"><?= lang('EventManagement.holiday_reason') ?></label>
                 </div>
-                <input type="text" class="form-control form-control-sm input-sm" name="reason" placeholder="<?= lang('EventManagement.holiday_reason') ?>">
+                <input type="text" class="form-control form-control-sm input-sm" name="reason" id="reason" placeholder="<?= lang('EventManagement.holiday_reason') ?>">
+                <input type="hidden" class="form-control form-control-sm input-sm" name="id" id="id" placeholder="<?= lang('EventManagement.holiday_id') ?>">
             </div>
         </div>
     </div>
@@ -58,7 +60,7 @@
 	<script src="<?= base_url('jquery.validate/additional-methods.min.js') ?>" type="text/javascript"></script>
     <script>
         var langHolidayFormJSON = <?php echo $line = json_encode(lang('EventManagement.validation.messages.holidayForm', [], 'english'));
-; ?>;
+; ?>;   $('#res_message').hide();
         if ($("#frmHoliday").length > 0) {
             $("#frmHoliday").validate({
                 errorClass: "invalid-feedback",
@@ -136,18 +138,44 @@
                 		data: $('#frmHoliday').serialize(),
                 		dataType: "json",
                         headers: { Authorization: 'Bearer <?= $token ?>' },
+                        beforeSend:function(){
+                            if($('#id').val() != '') {
+                                $('#addHoliday').text('<?= lang('EventManagement.update_holiday') ?>');
+                            } else {
+                                $('#addHoliday').text('<?= lang('EventManagement.add_holiday') ?>');
+                            }
+                            $('#addHoliday').attr('disabled', true);
+                        },
                 		success: function(response) {
                 			console.log(response);
                 			console.log(response.success);
-                			$('#addHoliday').val('<?= lang('EventManagement.add_holiday') ?>');
-                			$('#res_message').html(response.message);
-                			$('#res_message').show();
-                			$('#res_message').removeClass('d-none');
-                			$('#frmHoliday')[0].reset();
-                			setTimeout(function() {
-                				$('#res_message').hide();
-                				$('#res_message').html('');
-                			}, 3000);
+                            if(response.error === false) {
+                                $('#addHoliday').val('<?= lang('EventManagement.add_holiday') ?>');
+                                $('#addHoliday').text('<?= lang('EventManagement.add_holiday') ?>');
+                                $('#res_message').html(response.message);
+                                $('#res_message').addClass('alert-success').removeClass('alert-danger');
+                                $('#res_message').show();
+                                $('#res_message').removeClass('d-none');
+                                $('#id').val('');
+                                $('#frmHoliday')[0].reset();
+                            } else {
+                                if(response.message.hdate) {
+                                    $('#res_message').html(response.message);
+                                } else if (response.message.reason) {
+                                    $('#res_message').html(response.message.reason);
+                                } else {
+                                    $('#res_message').html(response.message);
+                                }
+                                $('#res_message').show();
+                                $('#res_message').removeClass('alert-success').addClass('alert-danger');
+                            }
+                            setTimeout(function() {
+                                $('#res_message').hide();
+                                $('#res_message').html('');
+                                $('#table').DataTable().ajax.reload();
+                                $('#addHoliday').attr('disabled', false);
+                            }, 3000);
+
                 		}
                 	});
                 }
